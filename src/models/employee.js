@@ -8,21 +8,34 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false,  // Ensuring employee must have a name
+      allowNull: false,
     },
     positionId: {
       type: DataTypes.INTEGER,
-      allowNull: false,  // Position is mandatory
+      allowNull: false,
     },
     positionName: {
       type: DataTypes.STRING,
-      allowNull: false,  // Position name is mandatory
+      allowNull: false,
     },
     parentId: {
       type: DataTypes.INTEGER,
-      allowNull: true,  // Parent (manager) is optional for the top-level employee
-      defaultValue: null,  // Top-level employees will have `null` as parentId
+      allowNull: true,
+      defaultValue: null,
     }
+  },
+  {
+    indexes: [
+      {
+        name: 'idx_employee_id',
+        unique: true,
+        fields: ['id'],
+      },
+      {
+        name: 'idx_employee_parentId',
+        fields: ['parentId'],
+      },
+    ],
   });
 
   // Define relationships: an employee can have multiple children (subordinates)
